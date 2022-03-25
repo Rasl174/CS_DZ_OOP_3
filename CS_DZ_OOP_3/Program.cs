@@ -10,9 +10,10 @@ namespace CS_DZ_OOP_3
     {
         static void Main(string[] args)
         {
-            bool isWork = true;
-
+            DataBase dataBase = new DataBase();
             List<Player> players = new List<Player> { };
+
+            bool isWork = true;
 
             Console.WriteLine("Это база данных игронков. Выберите что хотите сделать - ");
             while (isWork)
@@ -22,37 +23,50 @@ namespace CS_DZ_OOP_3
                 Console.WriteLine("Для бана игрока введите 3");
                 Console.WriteLine("Для разбана игрока введите 4");
                 Console.WriteLine("Для выхода введите 5 или exit");
-                string userInput = Console.ReadLine();
 
-                switch (userInput)
-                {
-                    case "1":
-                        ShowInfo(players);
-                        break;
-                    case "2":
-                        AddPlayer(ref players);
-                        break;
-                    case "3":
-                        Banned(players);
-                        break;
-                    case "4":
-                        DeBanned(players);
-                        break;
-                    case "5":
-                    case "exit":
-                        isWork = false;
-                        break;
-                    default:
-                        Console.WriteLine("Ошибка! Введены не верные данные.");
-                        break;
-                }
+                dataBase.Menu(ref players, ref isWork);
+            }
+        }    
+    }
+
+    class DataBase
+    {
+        public DataBase() { }
+
+        public void Menu(ref List<Player> players, ref bool isWork)
+        {
+            isWork = true;
+
+            string userInput = Console.ReadLine();
+
+            switch (userInput)
+            {
+                case "1":
+                    ShowInfo(ref players);
+                    break;
+                case "2":
+                    AddPlayer(ref players);
+                    break;
+                case "3":
+                    Ban(players);
+                    break;
+                case "4":
+                    DeBan(players);
+                    break;
+                case "5":
+                case "exit":
+                    isWork = false;
+                    break;
+                default:
+                    Console.WriteLine("Ошибка! Введены не верные данные.");
+                    break;
             }
         }
-        static void ShowInfo(List<Player> players)
+        static void ShowInfo(ref List<Player> players)
         {
             Console.Clear();
 
-            if(players.Count > 0)
+            if (players.Count > 0)
             {
                 foreach (var player in players)
                 {
@@ -69,7 +83,7 @@ namespace CS_DZ_OOP_3
             }
         }
 
-        static void Banned (List<Player> players)
+        static void Ban(List<Player> players)
         {
             Console.Clear();
             Console.WriteLine("Введите уникальный номер игрока для бана - ");
@@ -77,7 +91,7 @@ namespace CS_DZ_OOP_3
 
             foreach (var player in players)
             {
-                if(player.NumberID == userInput)
+                if (player.NumberID == userInput)
                 {
                     player.IsBanned = true;
                 }
@@ -86,7 +100,7 @@ namespace CS_DZ_OOP_3
             }
         }
 
-        static void DeBanned(List<Player> players)
+        static void DeBan(List<Player> players)
         {
             Console.Clear();
             Console.WriteLine("Введите уникальный номер игрока для разбана - ");
@@ -130,7 +144,7 @@ namespace CS_DZ_OOP_3
 
         public int Level { get; private set; }
 
-        public bool IsBanned { get; set; }
+        public bool IsBanned;
 
         public Player(int numberID, string nickName, int level, bool isBanned)
         {
