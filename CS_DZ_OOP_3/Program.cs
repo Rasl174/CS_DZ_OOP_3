@@ -10,8 +10,8 @@ namespace CS_DZ_OOP_3
     {
         static void Main(string[] args)
         {
-            Database database = new Database();
             List<Player> players = new List<Player> { };
+            Database database = new Database(players);
 
             bool isWork = true;
 
@@ -19,13 +19,20 @@ namespace CS_DZ_OOP_3
 
             while (isWork)
             {
-                database.Menu(ref players ,ref isWork);
+                database.Menu(ref players, ref isWork);
             }
         }    
     }
 
     class Database
     {
+        private List<Player> Players { get; set; }
+
+        public Database(List<Player> players)
+        {
+            Players = players;
+        }
+
         public void Menu(ref List<Player> players, ref bool isWork)
         {
             isWork = true;
@@ -82,20 +89,35 @@ namespace CS_DZ_OOP_3
 
         static void Ban(List<Player> players)
         {
-            if(players.Count > 0)
+            bool correctInput = false;
+
+            if (players.Count > 0)
             {
                 Console.Clear();
-                Console.WriteLine("Введите уникальный номер игрока для бана - ");
-                int userInput = Convert.ToInt32(Console.ReadLine());
-                foreach (var player in players)
+
+                while(correctInput == false)
                 {
-                    if (player.NumberID == userInput)
+                    Console.WriteLine("Введите уникальный номер игрока для бана - ");
+
+                    if (int.TryParse(Console.ReadLine(), out int userInput) == false)
                     {
-                        player.IsBanned = true;
+                        Console.Write("Ввод не корректный введите снова: ");
                     }
                     else
                     {
-                        Console.WriteLine("Игрока с таким номером нет!");
+                        correctInput = true;
+
+                        foreach (var player in players)
+                        {
+                            if (player.NumberID == userInput)
+                            {
+                                player.IsBanned = true;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Игрока с таким номером нет!");
+                            }
+                        }
                     }
                 }
             }
@@ -108,20 +130,36 @@ namespace CS_DZ_OOP_3
 
         static void DeBan(List<Player> players)
         {
+            bool correctInput = false;
+
             if (players.Count > 0)
             {
                 Console.Clear();
-                Console.WriteLine("Введите уникальный номер игрока для бана - ");
-                int userInput = Convert.ToInt32(Console.ReadLine());
-                foreach (var player in players)
+
+                while(correctInput == false)
                 {
-                    if (player.NumberID == userInput)
+                    Console.WriteLine("Введите уникальный номер игрока для разбана - ");
+
+                    if (int.TryParse(Console.ReadLine(), out int userInput) == false)
                     {
-                        player.IsBanned = false;
+                        Console.Write("Ввод не корректный введите снова: ");
                     }
                     else
                     {
-                        Console.WriteLine("Игрока с таким номером нет!");
+                        correctInput = true;
+
+                        foreach (var player in players)
+                        {
+                            if (player.NumberID == userInput)
+                            {
+                                player.IsBanned = false;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Игрока с таким номером нет!");
+                            }
+                        }
+
                     }
                 }
             }
@@ -134,29 +172,40 @@ namespace CS_DZ_OOP_3
 
         static void AddPlayer(ref List<Player> players)
         {
-            int playerID;
-            int playerLevel;
+            int playerID = 0;
+            int playerLevel = 0;
+            bool correctInput = false;
 
             Console.WriteLine("Введите уникальный номер игрока: ");
-            while (true)
+            while (correctInput == false)
             {
-                if(int.TryParse(Console.ReadLine(), out int userInput) == false)
+                if (int.TryParse(Console.ReadLine(), out int userInput) == false)
                 {
                     Console.Write("Ввод не корректный введите снова: ");
                 }
                 else
                 {
                     playerID = userInput;
-                    break;
+                    correctInput = true;
+
+                    foreach (var item in players)
+                    {
+                        if (item.NumberID == userInput)
+                        {
+                            Console.WriteLine("Такой игрок уже есть повторите ввод: ");
+                            correctInput = false;
+                        }
+                    }
                 }
             }
-            
 
             Console.WriteLine("Введите имя игрока: ");
             string playerName = Console.ReadLine();
 
-            Console.WriteLine("Введите уникальный номер игрока: ");
-            while (true)
+            correctInput = false;
+
+            Console.WriteLine("Введите уровень игрока: ");
+            while (correctInput == false)
             {
                 if (int.TryParse(Console.ReadLine(), out int userInput) == false)
                 {
@@ -165,14 +214,13 @@ namespace CS_DZ_OOP_3
                 else
                 {
                     playerLevel = userInput;
-                    break;
+                    correctInput = true;
                 }
             }
             
             bool isBanned = false;
 
             List<Player> player = new List<Player> { new Player(playerID, playerName, playerLevel, isBanned) };
-
             players = player.Union(players).ToList();
         }
     }
