@@ -19,7 +19,7 @@ namespace CS_DZ_OOP_3
 
             while (isWork)
             {
-                database.Menu(ref players, ref isWork);
+                database.Menu(ref isWork);
             }
         }    
     }
@@ -33,7 +33,7 @@ namespace CS_DZ_OOP_3
             Players = players;
         }
 
-        public void Menu(ref List<Player> players, ref bool isWork)
+        public void Menu(ref bool isWork)
         {
             isWork = true;
 
@@ -47,16 +47,16 @@ namespace CS_DZ_OOP_3
             switch (userInput)
             {
                 case "1":
-                    ShowInfo(players);
+                    ShowInfo(Players);
                     break;
                 case "2":
-                    AddPlayer(ref players);
+                    AddPlayer(Players);
                     break;
                 case "3":
-                    Ban(players);
+                    Ban(Players);
                     break;
                 case "4":
-                    DeBan(players);
+                    DeBan(Players);
                     break;
                 case "5":
                 case "exit":
@@ -171,7 +171,7 @@ namespace CS_DZ_OOP_3
             }
         }
 
-        static void AddPlayer(ref List<Player> players)
+        static void AddPlayer(List<Player> players)
         {
             int playerID = 0;
             int playerLevel = 0;
@@ -221,8 +221,7 @@ namespace CS_DZ_OOP_3
             
             bool isBanned = false;
 
-            List<Player> player = new List<Player> { new Player(playerID, playerName, playerLevel, isBanned) };
-            players = player.Union(players).ToList();
+            players.Add(new Player(playerID, playerName, playerLevel, isBanned));
         }
     }
 
@@ -234,7 +233,7 @@ namespace CS_DZ_OOP_3
 
         public int Level { get; private set; }
 
-        public bool IsBanned;
+        public bool IsBanned { get; set; }
 
         public Player(int numberID, string nickName, int level, bool isBanned)
         {
