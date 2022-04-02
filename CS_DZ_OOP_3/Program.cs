@@ -112,10 +112,11 @@ namespace CS_DZ_OOP_3
                             if (player.NumberID == userInput)
                             {
                                 player.IsBanned = true;
+                                Console.WriteLine("Игрок - " + player.NickName + " зазбанен");
                             }
                             else
                             {
-                                Console.WriteLine("Игрока с таким номером нет!");
+                                Console.WriteLine("У игрока - " + player.NickName + " другой номер");
                             }
                         }
                     }
@@ -153,13 +154,13 @@ namespace CS_DZ_OOP_3
                             if (player.NumberID == userInput)
                             {
                                 player.IsBanned = false;
+                                Console.WriteLine("Игрок - " + player.NickName + " разбанен");
                             }
                             else
                             {
-                                Console.WriteLine("Игрока с таким номером нет!");
+                                Console.WriteLine("У игрока - " + player.NickName + " другой номер");
                             }
                         }
-
                     }
                 }
             }
