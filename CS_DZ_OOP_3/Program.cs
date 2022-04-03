@@ -105,9 +105,9 @@ namespace CS_DZ_OOP_3
                     playerID = userInput;
                     correctInput = true;
 
-                    foreach (var item in players)
+                    foreach (var player in players)
                     {
-                        if (item.NumberID == userInput)
+                        if (player.NumberID == userInput)
                         {
                             Console.WriteLine("Такой игрок уже есть повторите ввод: ");
                             correctInput = false;
