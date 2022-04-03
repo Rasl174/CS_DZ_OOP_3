@@ -19,24 +19,25 @@ namespace CS_DZ_OOP_3
 
             while (isWork)
             {
-                database.Menu(ref isWork);
+                database.WorkMenu(players, ref isWork);
+                
             }
         }    
     }
 
-    class Database
+    class Database : Player
     {
-        private List<Player> Players { get; set; }
+        private List<Player> _players;
 
         public Database(List<Player> players)
         {
-            Players = players;
+            _players = players;
         }
 
-        public void Menu(ref bool isWork)
+        public void WorkMenu(List<Player> players, ref bool isWork)
         {
             isWork = true;
-
+            
             Console.WriteLine("Для вывода списка игроков введите 1");
             Console.WriteLine("Для добавления игрока введите 2");
             Console.WriteLine("Для бана игрока введите 3");
@@ -47,16 +48,16 @@ namespace CS_DZ_OOP_3
             switch (userInput)
             {
                 case "1":
-                    ShowInfo(Players);
+                    ShowInfo(players);
                     break;
                 case "2":
-                    AddPlayer(Players);
+                    AddPlayer(players);
                     break;
                 case "3":
-                    Ban(Players);
+                    Ban(players);
                     break;
                 case "4":
-                    DeBan(Players);
+                    DeBan(players);
                     break;
                 case "5":
                 case "exit":
@@ -70,7 +71,7 @@ namespace CS_DZ_OOP_3
             Console.Clear();
         }
 
-        static void ShowInfo(List<Player> players)
+        private void ShowInfo(List<Player> players)
         {
             Console.Clear();
 
@@ -87,91 +88,7 @@ namespace CS_DZ_OOP_3
             }
         }
 
-        static void Ban(List<Player> players)
-        {
-            bool correctInput = false;
-
-            if (players.Count > 0)
-            {
-                Console.Clear();
-
-                while(correctInput == false)
-                {
-                    Console.WriteLine("Введите уникальный номер игрока для бана - ");
-
-                    if (int.TryParse(Console.ReadLine(), out int userInput) == false)
-                    {
-                        Console.Write("Ввод не корректный введите снова: ");
-                    }
-                    else
-                    {
-                        correctInput = true;
-
-                        foreach (var player in players)
-                        {
-                            if (player.NumberID == userInput)
-                            {
-                                player.IsBanned = true;
-                                Console.WriteLine("Игрок - " + player.NickName + " зазбанен");
-                            }
-                            else
-                            {
-                                Console.WriteLine("У игрока - " + player.NickName + " другой номер");
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("В базе еще нет игроков!");
-            }
-        }
-
-        static void DeBan(List<Player> players)
-        {
-            bool correctInput = false;
-
-            if (players.Count > 0)
-            {
-                Console.Clear();
-
-                while(correctInput == false)
-                {
-                    Console.WriteLine("Введите уникальный номер игрока для разбана - ");
-
-                    if (int.TryParse(Console.ReadLine(), out int userInput) == false)
-                    {
-                        Console.Write("Ввод не корректный введите снова: ");
-                    }
-                    else
-                    {
-                        correctInput = true;
-
-                        foreach (var player in players)
-                        {
-                            if (player.NumberID == userInput)
-                            {
-                                player.IsBanned = false;
-                                Console.WriteLine("Игрок - " + player.NickName + " разбанен");
-                            }
-                            else
-                            {
-                                Console.WriteLine("У игрока - " + player.NickName + " другой номер");
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("В базе еще нет игроков!");
-            }
-        }
-
-        static void AddPlayer(List<Player> players)
+        private void AddPlayer(List<Player> players)
         {
             int playerID = 0;
             int playerLevel = 0;
@@ -233,7 +150,9 @@ namespace CS_DZ_OOP_3
 
         public int Level { get; private set; }
 
-        public bool IsBanned { get; set; }
+        public bool IsBanned { get; private set; }
+
+        public Player() { }
 
         public Player(int numberID, string nickName, int level, bool isBanned)
         {
@@ -241,6 +160,90 @@ namespace CS_DZ_OOP_3
             NickName = nickName;
             Level = level;
             IsBanned = isBanned;
+        }
+
+        public void Ban(List<Player> players)
+        {
+            bool correctInput = false;
+
+            if (players.Count > 0)
+            {
+                Console.Clear();
+
+                while (correctInput == false)
+                {
+                    Console.WriteLine("Введите уникальный номер игрока для бана - ");
+
+                    if (int.TryParse(Console.ReadLine(), out int userInput) == false)
+                    {
+                        Console.Write("Ввод не корректный введите снова: ");
+                    }
+                    else
+                    {
+                        correctInput = true;
+
+                        foreach (var player in players)
+                        {
+                            if (player.NumberID == userInput)
+                            {
+                                player.IsBanned = true;
+                                Console.WriteLine("Игрок - " + player.NickName + " зазбанен");
+                            }
+                            else
+                            {
+                                Console.WriteLine("У игрока - " + player.NickName + " другой номер");
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("В базе еще нет игроков!");
+            }
+        }
+
+        public void DeBan(List<Player> players)
+        {
+            bool correctInput = false;
+
+            if (players.Count > 0)
+            {
+                Console.Clear();
+
+                while (correctInput == false)
+                {
+                    Console.WriteLine("Введите уникальный номер игрока для разбана - ");
+
+                    if (int.TryParse(Console.ReadLine(), out int userInput) == false)
+                    {
+                        Console.Write("Ввод не корректный введите снова: ");
+                    }
+                    else
+                    {
+                        correctInput = true;
+
+                        foreach (var player in players)
+                        {
+                            if (player.NumberID == userInput)
+                            {
+                                player.IsBanned = false;
+                                Console.WriteLine("Игрок - " + player.NickName + " разбанен");
+                            }
+                            else
+                            {
+                                Console.WriteLine("У игрока - " + player.NickName + " другой номер");
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("В базе еще нет игроков!");
+            }
         }
     }
 }
