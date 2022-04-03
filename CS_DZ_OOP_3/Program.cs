@@ -52,13 +52,13 @@ namespace CS_DZ_OOP_3
                         AddPlayer(players);
                         break;
                     case "3":
-                        Ban(players);
+                        Ban();
                         break;
                     case "4":
-                        DeBan(players);
+                        DeBan();
                         break;
                     case "5":
-                        Delete(players);
+                        Delete();
                         break;
                     case "6":
                     case "exit":
@@ -73,13 +73,13 @@ namespace CS_DZ_OOP_3
             }
         }
 
-        private void Ban(List<Player> players)
+        private void Ban()
         {
-            if (players.Count > 0)
+            if (_players.Count > 0)
             {
-                foreach (var player in players)
+                foreach (var player in _players)
                 {
-                    player.Ban(players);
+                    player.Ban(_players);
                     break;
                 }
             }
@@ -89,13 +89,14 @@ namespace CS_DZ_OOP_3
             }
         }
 
-        private void DeBan(List<Player> players)
+        private void DeBan()
         {
-            if (players.Count > 0)
+            if (_players.Count > 0)
             {
-                foreach (var player in players)
+                foreach (var player in _players)
                 {
-                    player.DeBan(players);
+                    player.DeBan(_players);
+                    break;
                 }
             }
             else
@@ -121,35 +122,41 @@ namespace CS_DZ_OOP_3
             }
         }
 
-        private void Delete(List<Player> players)
+        private void Delete()
         {
             bool correctInput = false;
-
-            Console.WriteLine("Введите уникальный номер игрока для удаления: ");
-            while (correctInput == false)
+            if (_players.Count > 0)
             {
-                if (int.TryParse(Console.ReadLine(), out int userInput) == false)
+                Console.WriteLine("Введите уникальный номер игрока для удаления: ");
+                while (correctInput == false)
                 {
-                    Console.Write("Ввод не корректный введите снова: ");
-                }
-                else
-                {
-                    foreach (var player in players)
+                    if (int.TryParse(Console.ReadLine(), out int userInput) == false)
                     {
-                        if (player.NumberID == userInput)
+                        Console.Write("Ввод не корректный введите снова: ");
+                    }
+                    else
+                    {
+                        foreach (var player in _players)
                         {
-                            correctInput = true;
+                            if (player.NumberID == userInput)
+                            {
+                                correctInput = true;
 
-                            Console.WriteLine("Игрок " + player.NickName + " удален");
-                            players.Remove(player);
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("У игрока - " + player.NickName + " другой номер");
+                                Console.WriteLine("Игрок " + player.NickName + " удален");
+                                _players.Remove(player);
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("У игрока - " + player.NickName + " другой номер");
+                            }
                         }
                     }
                 }
+            }
+            else
+            {
+                Console.WriteLine("В базе нет игроков!");
             }
         }
 
@@ -217,7 +224,6 @@ namespace CS_DZ_OOP_3
 
         public bool IsBanned { get; private set; }
 
-        public Player() { }
         public Player(int numberID, string nickName, int level, bool isBanned)
         {
             NumberID = numberID;
