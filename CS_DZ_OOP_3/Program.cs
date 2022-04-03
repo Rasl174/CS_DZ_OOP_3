@@ -20,7 +20,6 @@ namespace CS_DZ_OOP_3
             while (isWork)
             {
                 database.WorkMenu(players, ref isWork);
-                
             }
         }    
     }
@@ -153,7 +152,6 @@ namespace CS_DZ_OOP_3
         public bool IsBanned { get; private set; }
 
         public Player() { }
-
         public Player(int numberID, string nickName, int level, bool isBanned)
         {
             NumberID = numberID;
