@@ -114,8 +114,7 @@ namespace CS_DZ_OOP_3
 
         private void Ban()
         {
-            TryGetPlayer(out Player player);
-            if(player != null)
+            if(TryGetPlayer(out Player player) == true)
             {
                 player.Ban();
                 Console.WriteLine("Игрок - " + player.NickName + " забанен.");
@@ -124,8 +123,7 @@ namespace CS_DZ_OOP_3
 
         private void DeBan()
         {
-            TryGetPlayer(out Player player);
-            if(player != null)
+            if(TryGetPlayer(out Player player) == true)
             {
                 player.DeBan();
                 Console.WriteLine("Игрок - " + player.NickName + " разбанен.");
@@ -151,8 +149,7 @@ namespace CS_DZ_OOP_3
 
         private void Delete()
         {
-            TryGetPlayer(out Player player);
-            if(player != null)
+            if(TryGetPlayer(out Player player) == true)
             {
                _players.Remove(player);
                 Console.WriteLine("Игрок - " + player.NickName + " удален.");
