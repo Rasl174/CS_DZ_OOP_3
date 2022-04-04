@@ -15,8 +15,7 @@ namespace CS_DZ_OOP_3
             
             Console.WriteLine("Это база данных игронков. Выберите что хотите сделать - ");
 
-            database.Work(players);
-            
+            database.Work();
         }    
     }
 
@@ -29,7 +28,7 @@ namespace CS_DZ_OOP_3
             _players = players;
         }
 
-        public void Work(List<Player> players)
+        public void Work()
         {
             bool isWork = true;
 
@@ -46,10 +45,10 @@ namespace CS_DZ_OOP_3
                 switch (userInput)
                 {
                     case "1":
-                        ShowInfo(players);
+                        ShowInfo();
                         break;
                     case "2":
-                        AddPlayer(players);
+                        AddPlayer();
                         break;
                     case "3":
                         Ban();
@@ -105,13 +104,13 @@ namespace CS_DZ_OOP_3
             }
         }
 
-        private void ShowInfo(List<Player> players)
+        private void ShowInfo()
         {
             Console.Clear();
 
-            if (players.Count > 0)
+            if (_players.Count > 0)
             {
-                foreach (var player in players)
+                foreach (var player in _players)
                 {
                     Console.WriteLine("Уникальный номер игрока - " + player.NumberID + " его имя - " + player.NickName + " его уровень - " + player.Level + " бан - " + player.IsBanned);
                 }
@@ -146,10 +145,6 @@ namespace CS_DZ_OOP_3
                                 _players.Remove(player);
                                 break;
                             }
-                            else
-                            {
-                                Console.WriteLine("У игрока - " + player.NickName + " другой номер");
-                            }
                         }
                     }
                 }
@@ -160,7 +155,7 @@ namespace CS_DZ_OOP_3
             }
         }
 
-        private void AddPlayer(List<Player> players)
+        private void AddPlayer()
         {
             int playerID = 0;
             int playerLevel = 0;
@@ -178,7 +173,7 @@ namespace CS_DZ_OOP_3
                     playerID = userInput;
                     correctInput = true;
 
-                    foreach (var player in players)
+                    foreach (var player in _players)
                     {
                         if (player.NumberID == userInput)
                         {
@@ -194,10 +189,10 @@ namespace CS_DZ_OOP_3
 
             correctInput = false;
 
-            Console.WriteLine("Введите уровень игрока: ");
+            Console.WriteLine("Введите уровень игрока не больше 90го : ");
             while (correctInput == false)
             {
-                if (int.TryParse(Console.ReadLine(), out int userInput) == false)
+                if (int.TryParse(Console.ReadLine(), out int userInput) == false || userInput < 0 || userInput > 90)
                 {
                     Console.Write("Ввод не корректный введите снова: ");
                 }
@@ -210,7 +205,7 @@ namespace CS_DZ_OOP_3
             
             bool isBanned = false;
 
-            players.Add(new Player(playerID, playerName, playerLevel, isBanned));
+            _players.Add(new Player(playerID, playerName, playerLevel, isBanned));
         }
     }
 
