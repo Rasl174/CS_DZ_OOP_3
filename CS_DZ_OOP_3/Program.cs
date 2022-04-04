@@ -72,6 +72,43 @@ namespace CS_DZ_OOP_3
             }
         }
 
+        private bool TryGetPlayer(out Player player)
+        {
+            
+            if (_players.Count > 0)
+            {
+                bool correctInput = false;
+
+                Console.Clear();
+
+                while (correctInput == false)
+                {
+                    Console.WriteLine("Введите уникальный номер игрока - ");
+
+                    if (int.TryParse(Console.ReadLine(), out int userInput) == false)
+                    {
+                        Console.Write("Ввод не корректный введите снова: ");
+                    }
+                    else
+                    {
+                        correctInput = true;
+
+                        foreach (var getPlayer in _players)
+                        {
+                            if (getPlayer.NumberID == userInput)
+                            {
+                                
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("В базе нет игроков!");
+            }
+        }
+
         private void Ban()
         {
             if (_players.Count > 0)
