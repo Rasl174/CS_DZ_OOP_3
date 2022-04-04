@@ -74,7 +74,8 @@ namespace CS_DZ_OOP_3
 
         private bool TryGetPlayer(out Player player)
         {
-            
+            player = null;
+
             if (_players.Count > 0)
             {
                 bool correctInput = false;
@@ -97,48 +98,30 @@ namespace CS_DZ_OOP_3
                         {
                             if (getPlayer.NumberID == userInput)
                             {
-                                
+                                player = getPlayer;
                             }
                         }
                     }
                 }
+                return true;
             }
             else
             {
                 Console.WriteLine("В базе нет игроков!");
+                return false;
             }
         }
 
         private void Ban()
         {
-            if (_players.Count > 0)
-            {
-                foreach (var player in _players)
-                {
-                    player.Ban(_players);
-                    break;
-                }
-            }
-            else
-            {
-                Console.WriteLine("В базе нет игроков!");
-            }
+            TryGetPlayer(out Player player);
+            player.Ban();
         }
 
         private void DeBan()
         {
-            if (_players.Count > 0)
-            {
-                foreach (var player in _players)
-                {
-                    player.DeBan(_players);
-                    break;
-                }
-            }
-            else
-            {
-                Console.WriteLine("В базе нет игроков!");
-            }
+            TryGetPlayer(out Player player);
+            player.DeBan();
         }
 
         private void ShowInfo()
@@ -160,36 +143,8 @@ namespace CS_DZ_OOP_3
 
         private void Delete()
         {
-            bool correctInput = false;
-            if (_players.Count > 0)
-            {
-                Console.WriteLine("Введите уникальный номер игрока для удаления: ");
-                while (correctInput == false)
-                {
-                    if (int.TryParse(Console.ReadLine(), out int userInput) == false)
-                    {
-                        Console.Write("Ввод не корректный введите снова: ");
-                    }
-                    else
-                    {
-                        foreach (var player in _players)
-                        {
-                            if (player.NumberID == userInput)
-                            {
-                                correctInput = true;
-
-                                Console.WriteLine("Игрок " + player.NickName + " удален");
-                                _players.Remove(player);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("В базе нет игроков!");
-            }
+            TryGetPlayer(out Player player);
+            _players.Remove(player);
         }
 
         private void AddPlayer()
@@ -264,72 +219,14 @@ namespace CS_DZ_OOP_3
             IsBanned = isBanned;
         }
 
-        public void Ban(List<Player> players)
+        public void Ban()
         {
-            bool correctInput = false;
-
-            Console.Clear();
-
-            while (correctInput == false)
-            {
-                Console.WriteLine("Введите уникальный номер игрока для бана - ");
-
-                if (int.TryParse(Console.ReadLine(), out int userInput) == false)
-                {
-                    Console.Write("Ввод не корректный введите снова: ");
-                }
-                else
-                {
-                    correctInput = true;
-
-                    foreach (var player in players)
-                    {
-                        if (player.NumberID == userInput)
-                        {
-                            player.IsBanned = true;
-                            Console.WriteLine("Игрок - " + player.NickName + " зазбанен");
-                        }
-                        else
-                        {
-                            Console.WriteLine("У игрока - " + player.NickName + " другой номер");
-                        }
-                    }
-                }
-            }
+            IsBanned = true;
         }
 
-        public void DeBan(List<Player> players)
+        public void DeBan()
         {
-            bool correctInput = false;
-
-            Console.Clear();
-
-            while (correctInput == false)
-            {
-                Console.WriteLine("Введите уникальный номер игрока для бана - ");
-
-                if (int.TryParse(Console.ReadLine(), out int userInput) == false)
-                {
-                    Console.Write("Ввод не корректный введите снова: ");
-                }
-                else
-                {
-                    correctInput = true;
-
-                    foreach (var player in players)
-                    {
-                        if (player.NumberID == userInput)
-                        {
-                            player.IsBanned = false;
-                            Console.WriteLine("Игрок - " + player.NickName + " разбанен");
-                        }
-                        else
-                        {
-                            Console.WriteLine("У игрока - " + player.NickName + " другой номер");
-                        }
-                    }
-                }
-            }
+            IsBanned = true;
         }   
     }   
 }
