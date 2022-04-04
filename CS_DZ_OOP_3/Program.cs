@@ -115,13 +115,21 @@ namespace CS_DZ_OOP_3
         private void Ban()
         {
             TryGetPlayer(out Player player);
-            player.Ban();
+            if(player != null)
+            {
+                player.Ban();
+                Console.WriteLine("Игрок - " + player.NickName + " забанен.");
+            }
         }
 
         private void DeBan()
         {
             TryGetPlayer(out Player player);
-            player.DeBan();
+            if(player != null)
+            {
+                player.DeBan();
+                Console.WriteLine("Игрок - " + player.NickName + " разбанен.");
+            }
         }
 
         private void ShowInfo()
@@ -144,7 +152,11 @@ namespace CS_DZ_OOP_3
         private void Delete()
         {
             TryGetPlayer(out Player player);
-            _players.Remove(player);
+            if(player != null)
+            {
+               _players.Remove(player);
+                Console.WriteLine("Игрок - " + player.NickName + " удален.");
+            }
         }
 
         private void AddPlayer()
